@@ -1,26 +1,90 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --foreground-rgb: 255, 255, 255;
+  --background-rgb: 15, 23, 42;
+  --card-background: 30, 41, 59;
+  --primary: 56, 189, 248;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+}
+
+.feedback-dot {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  background-color: rgb(var(--primary));
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  z-index: 50;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+  /* Allow pointer events during edit mode */
+  pointer-events: auto;
+}
+
+.feedback-dot:hover {
+  transform: translate(-50%, -50%) scale(1.2);
+  box-shadow: 0 0 0 4px rgba(var(--primary), 0.4), 0 0 12px rgba(var(--primary), 0.6);
+  z-index: 60;
+}
+
+.feedback-form {
+  position: absolute;
+  background-color: rgb(var(--card-background));
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  pointer-events: auto; /* Ensure form is interactive */
+}
+
+/* Chrome-like inspector styles */
+.inspector-tooltip {
+  position: fixed;
+  background-color: #2d2d2d;
+  color: white;
+  font-family: monospace;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  z-index: 9999;
+  pointer-events: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+}
+
+/* Inspector mode indicator */
+.inspector-mode {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background-color: rgba(45, 45, 45, 0.75);
+  color: white;
+  font-size: 11px;
+  padding: 3px 6px;
+  border-radius: 3px;
+  z-index: 9999;
+}
+
+/* Highlight cursor for inspection mode */
+.inspect-cursor {
+  cursor: crosshair !important;
+}
+
+/* Makes sure iframe container allows scrolling */
+.iframe-container {
+  position: relative;
+  overflow: auto;
+  max-height: calc(100vh - 8rem);
+  background-color: white;
+  height: calc(100vh - 8rem);
+  display: flex;
+  flex-direction: column;
 }

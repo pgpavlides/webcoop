@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# WebCoop - Website Feedback Tool
+
+A simple, collaborative feedback tool for web projects built with Next.js and AWS.
+
+## Tech Stack
+
+- **Frontend**: Next.js
+- **Backend**: Next.js API routes (with potential AWS Lambda functions)
+- **Database**: DynamoDB
+- **Authentication**: NextAuth.js
+- **Visual Feedback**: HTML2Canvas
+- **Deployment**: AWS Amplify
+
+## Features
+
+- User authentication
+- Project creation
+- Visual feedback on websites
+- Collaboration through invitation links
+- Task tracking based on feedback
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js 16.8+ installed
+- AWS account with configured credentials
+- DynamoDB tables set up (Projects, Feedback, Invitations)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Setup
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Configure your environment variables by creating a `.env.local` file based on the provided template
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### DynamoDB Table Setup
 
-## Learn More
+You'll need to create the following tables in AWS DynamoDB:
 
-To learn more about Next.js, take a look at the following resources:
+#### Projects Table
+- Partition Key: `id` (String)
+- Attributes:
+  - name (String)
+  - url (String)
+  - createdBy (String)
+  - createdAt (String)
+  - updatedAt (String)
+  - collaborators (List)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Feedback Table
+- Partition Key: `id` (String)
+- Attributes:
+  - projectId (String)
+  - userId (String)
+  - x (Number)
+  - y (Number)
+  - text (String)
+  - createdAt (String)
+  - screenshot (Binary, optional)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### Invitations Table
+- Partition Key: `id` (String)
+- Attributes:
+  - projectId (String)
+  - createdBy (String)
+  - createdAt (String)
+  - expiresAt (String)
+  - used (Boolean)
 
-## Deploy on Vercel
+## Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project is designed to be deployed using AWS Amplify:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Connect your repository to AWS Amplify
+2. Configure the build settings
+3. Set up environment variables
+4. Deploy
+
+## Demo Account
+
+For demo purposes, you can use:
+- Email: user@example.com
+- Password: password
+
+## Next Steps
+
+- Implement real-time collaboration using WebSockets
+- Add task tracking features
+- Enhance the visual feedback mechanism
+- Implement file uploads for additional context
