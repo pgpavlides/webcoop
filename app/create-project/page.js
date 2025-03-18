@@ -51,6 +51,24 @@ export default function CreateProject() {
       const data = await response.json();
       
       if (response.ok) {
+        // Save project data to localStorage as a fallback
+        try {
+          const projectData = {
+            id: data.project.id,
+            name: projectName,
+            url: projectUrl
+          };
+          
+          // Get existing projects or init empty array
+          const existingProjects = JSON.parse(localStorage.getItem('webcoop-projects') || '[]');
+          existingProjects.push(projectData);
+          
+          // Save back to localStorage
+          localStorage.setItem('webcoop-projects', JSON.stringify(existingProjects));
+        } catch (e) {
+          console.error('Error saving to localStorage:', e);
+        }
+        
         router.push('/');
       } else {
         setError(data.error || 'Failed to create project');
